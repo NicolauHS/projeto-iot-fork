@@ -1,6 +1,7 @@
 from sqlalchemy import func
 from db.database import SessionLocal
 from src.models.sensor_model import SensorData
+from collections import defaultdict
 
 def save_sensor_data(data):
     db = SessionLocal()
@@ -20,6 +21,18 @@ def list_sensor_data():
 def list_by_sensor(sensorId):
     db = SessionLocal()
     return db.query(SensorData).filter(SensorData.sensorId == sensorId).all()
+
+def get_grouped_data():
+    all_data = list_sensor_data()
+    
+    grouped = defaultdict(list)
+    for record in all_data:
+        grouped[record.sensorId].append({
+            "value": record.value,
+            "timestamp": record.timestamp
+        })
+    
+    return dict(grouped)
 
 def get_latest_data():
     db = SessionLocal()

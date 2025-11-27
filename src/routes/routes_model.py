@@ -8,6 +8,7 @@ from src.controllers.sensor_controller import (
     get_latest_data,
     delete_record,
     register_sensor,
+    get_grouped_data
 )
 
 router = APIRouter()
@@ -35,6 +36,11 @@ def get_all():
 @router.get("/sensor/data/latest")
 def get_latest():
     return get_latest_data()
+
+# Agrupar dados por sensor
+@router.get("/sensor/data/grouped")
+def get_grouped():
+    return get_grouped_data()
 
 # Dados por ID do sensor
 @router.get("/sensor/data/{sensorId}")
