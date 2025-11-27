@@ -2,13 +2,19 @@ import time
 import random
 import requests
 from datetime import datetime, timezone
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 BASE_URL = "https://projeto-iot-fork-production.up.railway.app"
 
 ENDPOINT = f"{BASE_URL}/api/sensor/data"
 
 INTERVAL_SECONDS = 5
+
+# Get Bearer token from environment variable
+API_TOKEN = os.getenv("AUTH_TOKEN", "your-default-token")
 
 SENSORS = [
     {"sensorId": "T010", "type": "temperature"},   # Temperatura (°C)
@@ -46,8 +52,13 @@ def send_sensor_reading(sensor_id: str, sensor_type: str):
         "timestamp": current_timestamp_iso(),
     }
 
+    headers = {
+        "Authorization": f"Bearer {API_TOKEN}",
+        "Content-Type": "application/json"
+    }
+    
     try:
-        response = requests.post(ENDPOINT, json=payload, timeout=5)
+        response = requests.post(ENDPOINT, json=payload, headers=headers, timeout=5)
         response.raise_for_status()
         print(f"[OK] Enviado: {payload}  Resposta: {response.status_code}")
     except requests.RequestException as e:
@@ -57,6 +68,7 @@ def send_sensor_reading(sensor_id: str, sensor_type: str):
 def main():
     print(f"Iniciando simulador de sensores IoT...")
     print(f"Enviando dados para: {ENDPOINT}")
+    print(f"Token configurado: {'Sim' if API_TOKEN != 'your-default-token' else 'Não (usando default)'}")
     print("Pressione Ctrl+C para parar.\n")
 
     try:
