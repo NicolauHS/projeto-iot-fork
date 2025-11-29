@@ -241,4 +241,4 @@ Esta API foi projetada para ser consumida por aplicações frontend. O projeto f
 ## Autores
 
 - **Nícolas Haas Soares** - [GitHub](https://github.com/NicolauHS)
-- **Isabela Beckmann** - Frontend - [GitHub](https://github.com/isabeckmann)
+- **Isadora Beckmann** - Frontend - [GitHub](https://github.com/isabeckmann)
